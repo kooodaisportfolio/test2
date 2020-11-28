@@ -72,6 +72,7 @@ public class main extends HttpServlet {
 	      // 3.PostgreSQLに接続
 	      con = DriverManager.getConnection ( url, user, password ) ;
 
+
 	      // 4.SELECT文の作成・実行
 	      stmt = con.createStatement() ;
 	      String sql = "SELECT * from test" ;
