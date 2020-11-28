@@ -14,11 +14,11 @@
 	<% String userName = (String) request.getAttribute("userName"); %>
     こんにちは、<%= userName %> さん！
 
-	 <% if ("Guest".equals(userName)) { %>
     <form method="post" action="./main">
-        名前を入力してください: <input type="text" name="name">
-        <button type="submit">送信</button>
+	    <div>
+	        <p>名前を入力してください:</p><input type="text" name="name">
+	        <button type="submit">送信</button>
+	    </div>
     </form>
-    <% } %>
 </body>
 </html>
