@@ -81,9 +81,9 @@ public class main extends HttpServlet {
 	      // 5.実行結果の取得
 	      while ( result.next() ) {
 	        String col1 = result.getString ( 1 ) ;
-	        String col2 = result.getString ( 2 ) ;
-	        String col3 = result.getString ( 3 ) ;
-	        System.out.println ( col1 + " " + col2 + " " + col3 ) ;
+//	        String col2 = result.getString ( 2 ) ;
+//	        String col3 = result.getString ( 3 ) ;
+	        System.out.println ( col1 ) ;
 	      }
 	    } catch ( SQLException e ) {
 	      e.printStackTrace() ;
