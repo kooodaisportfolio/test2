@@ -6,6 +6,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,18 +29,14 @@ public class main extends HttpServlet {
      */
     public main() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
 
 		String name = (String) request.getAttribute("userName");
-
 
 	    if (name == null || "".equals(name)) {
 	        request.setAttribute("userName", "Guest");
@@ -56,7 +55,10 @@ public class main extends HttpServlet {
 	    request.setCharacterEncoding("utf-8");
 		// formから値を取得
 	    String name = request.getParameter("name");
-	    request.setAttribute("userName", name);
+	    String time = request.getParameter("time");
+	    String fee = request.getParameter("fee");
+
+	    request.setAttribute("userName", name);//TODO test
 
 	    // 1.データベース・テーブルに接続する準備
 	    Connection con = null;
@@ -69,23 +71,33 @@ public class main extends HttpServlet {
 	    String password = "postgres" ;
 
 	    try {
-	      // 3.PostgreSQLに接続
+
+		  Timestamp ts = new Timestamp(new SimpleDateFormat("yyyy/MM/dd").parse(time).getTime());
+
+		  // 3.PostgreSQLに接続
 	      con = DriverManager.getConnection ( url, user, password ) ;
 
-
 	      // 4.SELECT文の作成・実行
+//	      stmt = con.createStatement() ;
+//	      String sql = "SELECT * from test" ;
+//	      result = stmt.executeQuery ( sql ) ;
+
+	      //insert
 	      stmt = con.createStatement() ;
-	      String sql = "SELECT * from test" ;
+	      String sql = "INSERT INTO test VALUES ('" + name + "','" + ts + "'," + fee + ");";
+	      System.out.println ( sql ) ;
 	      result = stmt.executeQuery ( sql ) ;
 
 	      // 5.実行結果の取得
 	      while ( result.next() ) {
 	        String col1 = result.getString ( 1 ) ;
-//	        String col2 = result.getString ( 2 ) ;
-//	        String col3 = result.getString ( 3 ) ;
+	        String col2 = result.getString ( 2 ) ;
+	        String col3 = result.getString ( 3 ) ;
 	        System.out.println ( col1 ) ;
+	        System.out.println ( col2 ) ;
+	        System.out.println ( col3 ) ;
 	      }
-	    } catch ( SQLException e ) {
+	    } catch ( SQLException | ParseException e ) {
 	      e.printStackTrace() ;
 	    } finally {
 	      // 6.クローズ処理
